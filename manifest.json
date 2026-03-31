@@ -1,0 +1,10 @@
+{
+	"id": "maproom",
+	"name": "Maproom",
+	"version": "0.1.0",
+	"minAppVersion": "1.0.0",
+	"description": "Semantic search for Obsidian vaults powered by Maproom with FTS, vector embeddings, and git-based indexing.",
+	"author": "Manifold Logic",
+	"authorUrl": "https://github.com/manifoldlogic",
+	"isDesktopOnly": true
+}
