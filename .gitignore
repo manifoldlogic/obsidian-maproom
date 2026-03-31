@@ -1,0 +1,23 @@
+# Intellij
+*.iml
+.idea
+
+# npm / pnpm
+node_modules
+pnpm-lock.yaml
+
+# Don't include the compiled main.js file in the repo.
+# They should be uploaded to GitHub releases instead.
+main.js
+
+# Exclude sourcemaps
+*.map
+
+# obsidian
+data.json
+
+# macOS
+.DS_Store
+
+# vscode
+.vscode
