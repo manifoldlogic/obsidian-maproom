@@ -1,0 +1,14 @@
+[
+  {
+    "filePath": "notes/example.md",
+    "score": 0.95,
+    "title": "Example Note",
+    "snippet": "This is a matching snippet from the document..."
+  },
+  {
+    "filePath": "journal/2024-01-15.md",
+    "score": 0.82,
+    "title": "Journal Entry",
+    "snippet": "Another relevant passage found in the vault."
+  }
+]
