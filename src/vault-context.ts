@@ -45,25 +45,28 @@ export async function detectVaultContext(
 		maproomVersion: null,
 	};
 
-	// Step 1: Git detection
-	try {
-		const { stdout } = await execFileAsync("git", ["rev-parse", "--show-toplevel"], { cwd: vaultPath, timeout: 5000 });
-		context.gitRoot = stdout.trim();
-		context.isGitRepo = true;
-		context.repoName = path.basename(context.gitRoot);
-	} catch (error: unknown) {
-		console.warn("[maproom] Git detection failed", error);
-		context.isGitRepo = false;
-		context.gitRoot = null;
-		context.repoName = null;
-	}
+	// Steps 1 & 2: Run git and binary probes concurrently
+	const gitProbe = (async () => {
+		try {
+			const { stdout } = await execFileAsync("git", ["rev-parse", "--show-toplevel"], { cwd: vaultPath, timeout: 5000 });
+			context.gitRoot = stdout.trim();
+			context.isGitRepo = true;
+			context.repoName = path.basename(context.gitRoot);
+		} catch (error: unknown) {
+			console.warn("[maproom] Git detection failed", error);
+			context.isGitRepo = false;
+			context.gitRoot = null;
+			context.repoName = null;
+		}
+	})();
 
-	// Step 2: Maproom binary detection
-	if (maproomBinaryPath.trim() === "") {
-		console.warn("[maproom] Binary path is empty; skipping binary detection");
-		context.maproomAvailable = false;
-		context.maproomVersion = null;
-	} else {
+	const maproomProbe = (async () => {
+		if (maproomBinaryPath.trim() === "") {
+			console.warn("[maproom] Binary path is empty; skipping binary detection");
+			context.maproomAvailable = false;
+			context.maproomVersion = null;
+			return;
+		}
 		try {
 			const { stdout } = await execFileAsync(maproomBinaryPath, ["--version"], { timeout: 5000 });
 			context.maproomAvailable = true;
@@ -73,7 +76,9 @@ export async function detectVaultContext(
 			context.maproomAvailable = false;
 			context.maproomVersion = null;
 		}
-	}
+	})();
+
+	await Promise.all([gitProbe, maproomProbe]);
 
 	// Step 3: Database detection
 	if (context.isGitRepo) {

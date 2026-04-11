@@ -11,7 +11,9 @@ export default class MaproomPlugin extends Plugin {
 		this.addSettingTab(new MaproomSettingTab(this.app, this));
 
 		if (!Platform.isDesktopApp) return;
-		const vaultPath = (this.app.vault.adapter as FileSystemAdapter).getBasePath();
+		const adapter = this.app.vault.adapter;
+		if (!(adapter instanceof FileSystemAdapter)) return;
+		const vaultPath = adapter.getBasePath();
 		this.vaultContext = await detectVaultContext(vaultPath, this.settings.maproomBinaryPath);
 		showPrerequisiteNotices(this.vaultContext);
 	}
