@@ -1,11 +1,12 @@
 import { Plugin } from "obsidian";
-import { DEFAULT_SETTINGS, type MaproomSettings } from "./settings";
+import { DEFAULT_SETTINGS, MaproomSettingTab, type MaproomSettings } from "./settings";
 
 export default class MaproomPlugin extends Plugin {
 	settings: MaproomSettings = DEFAULT_SETTINGS;
 
 	async onload() {
 		await this.loadSettings();
+		this.addSettingTab(new MaproomSettingTab(this.app, this));
 	}
 
 	onunload() {
