@@ -2,7 +2,7 @@ import { FileSystemAdapter, Platform, Plugin } from "obsidian";
 import { MaproomService } from "./maproom-service";
 import { SearchModal } from "./search-modal";
 import { DEFAULT_SETTINGS, MaproomSettingTab, type MaproomSettings } from "./settings";
-import { detectVaultContext, showPrerequisiteNotices, type VaultContext } from "./vault-context";
+import { detectVaultContext, getStatusBarText, showPrerequisiteNotices, type VaultContext } from "./vault-context";
 
 export default class MaproomPlugin extends Plugin {
 	settings: MaproomSettings = DEFAULT_SETTINGS;
@@ -19,6 +19,9 @@ export default class MaproomPlugin extends Plugin {
 		const vaultPath = adapter.getBasePath();
 		this.vaultContext = await detectVaultContext(vaultPath, this.settings.maproomBinaryPath);
 		showPrerequisiteNotices(this.vaultContext);
+
+		const statusBarEl = this.addStatusBarItem();
+		statusBarEl.setText(getStatusBarText(this.vaultContext));
 
 		if (this.vaultContext) {
 			this.service = new MaproomService(
