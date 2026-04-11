@@ -31,7 +31,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 
 	private async persistSettings(): Promise<void> {
 		try {
-			await this.persistSettings();
+			await this.plugin.saveSettings();
 		} catch (error) {
 			console.error("[maproom] failed to save settings", error);
 		}
