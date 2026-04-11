@@ -1,5 +1,6 @@
 import { FileSystemAdapter, Platform, Plugin } from "obsidian";
 import { MaproomService } from "./maproom-service";
+import { SearchModal } from "./search-modal";
 import { DEFAULT_SETTINGS, MaproomSettingTab, type MaproomSettings } from "./settings";
 import { detectVaultContext, showPrerequisiteNotices, type VaultContext } from "./vault-context";
 
@@ -25,6 +26,20 @@ export default class MaproomPlugin extends Plugin {
 				this.vaultContext,
 			);
 		}
+
+		this.addCommand({
+			id: "search-vault",
+			name: "Search vault",
+			checkCallback: (checking: boolean) => {
+				if (!this.service || !this.service.isAvailable()) {
+					return false;
+				}
+				if (!checking) {
+					new SearchModal(this.app, this.service).open();
+				}
+				return true;
+			},
+		});
 	}
 
 	onunload() {
