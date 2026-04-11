@@ -29,6 +29,14 @@ export class MaproomSettingTab extends PluginSettingTab {
 		this.plugin = plugin;
 	}
 
+	private async persistSettings(): Promise<void> {
+		try {
+			await this.persistSettings();
+		} catch (error) {
+			console.error("[maproom] failed to save settings", error);
+		}
+	}
+
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
@@ -43,7 +51,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.maproomBinaryPath)
 					.onChange(async (value) => {
 						this.plugin.settings.maproomBinaryPath = value;
-						await this.plugin.saveSettings();
+						await this.persistSettings();
 					}),
 			);
 
@@ -63,7 +71,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.embeddingProvider =
 							value as MaproomSettings["embeddingProvider"];
-						await this.plugin.saveSettings();
+						await this.persistSettings();
 						this.updateProviderVisibility();
 					}),
 			);
@@ -79,7 +87,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.ollamaUrl)
 					.onChange(async (value) => {
 						this.plugin.settings.ollamaUrl = value;
-						await this.plugin.saveSettings();
+						await this.persistSettings();
 					}),
 			);
 		this.ollamaSection = ollamaSetting.settingEl;
@@ -95,7 +103,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 				text.setValue(this.plugin.settings.openaiApiKey).onChange(
 					async (value) => {
 						this.plugin.settings.openaiApiKey = value;
-						await this.plugin.saveSettings();
+						await this.persistSettings();
 					},
 				);
 			});
@@ -113,7 +121,7 @@ export class MaproomSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.googleProjectId)
 					.onChange(async (value) => {
 						this.plugin.settings.googleProjectId = value;
-						await this.plugin.saveSettings();
+						await this.persistSettings();
 					}),
 			);
 		/* eslint-enable obsidianmd/ui/sentence-case */
