@@ -21,7 +21,10 @@ export class SearchModal extends SuggestModal<SearchResult> {
 					return [];
 				}
 				new Notice(`Maproom: ${error.message}`);
+				return [];
 			}
+			console.error("[maproom] unexpected search failure", error);
+			new Notice("Maproom: Search failed unexpectedly");
 			return [];
 		}
 	}

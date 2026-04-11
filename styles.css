@@ -2,11 +2,13 @@
 
 .maproom-result-title {
 	font-weight: 600;
+	padding-right: 56px;
 }
 
 .maproom-result-path {
 	font-size: 0.85em;
 	color: var(--text-muted);
+	padding-right: 56px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -16,6 +18,7 @@
 	font-size: 0.9em;
 	color: var(--text-normal);
 	margin-top: 2px;
+	padding-right: 56px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
