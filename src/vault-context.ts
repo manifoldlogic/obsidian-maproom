@@ -111,3 +111,16 @@ export function showPrerequisiteNotices(context: VaultContext): void {
 	}
 }
 /* eslint-enable obsidianmd/ui/sentence-case */
+
+export function getStatusBarText(context: VaultContext | null): string {
+	if (context === null) {
+		return "Maproom: unavailable";
+	}
+	if (!context.isGitRepo) {
+		return "Maproom: no git repo";
+	}
+	if (!context.maproomAvailable || !context.databaseExists) {
+		return "Maproom: unavailable";
+	}
+	return "Maproom: ready";
+}
